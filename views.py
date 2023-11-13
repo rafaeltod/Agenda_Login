@@ -12,7 +12,7 @@ class View:
     if email == "": raise ValueError("E-mail vazio")
     if fone == "": raise ValueError("Telefone vazio")
     if senha == "": raise ValueError("Senha vazia")
-    for cliente in View.clientelistar():
+    for cliente in View.cliente_listar():
       if cliente.get_email() == email: raise ValueError("E-mail repetido")
     NCliente.inserir(cliente)
 
@@ -28,7 +28,7 @@ class View:
     if email == "": raise ValueError("E-mail vazio")
     if fone == "": raise ValueError("Telefone vazio")
     if senha == "": raise ValueError("Senha vazia")
-    for cliente in View.clientelistar():
+    for cliente in View.cliente_listar():
       if cliente.get_email() == email: raise ValueError("E-mail repetido")
     NCliente.atualizar(cliente)
     
@@ -102,7 +102,9 @@ class View:
   def agenda_abrir_agenda(data, hinicio, hfim, intervalo):
     data_inicio = datetime.datetime.strptime(f"{data} {hinicio}", "%d/%m/%Y %H:%M")
     data_fim = datetime.datetime.strptime(f"{data} {hfim}", "%d/%m/%Y %H:%M")
+    if data.date() < datetime.today().date(): raise ValueError()
     delta = datetime.timedelta(minutes = intervalo) 
+    if intervalo <= 0: raise ValueError()
     aux = data_inicio
     while aux <= data_fim :
       NAgenda.inserir(Agenda(0, aux, False, 0, 0))
