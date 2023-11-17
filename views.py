@@ -8,12 +8,9 @@ from datetime import datetime
 class View:
   def cliente_inserir(nome, email, fone, senha):
     cliente = Cliente(0, nome, email, fone, senha)
-    if nome == "": raise ValueError("Nome vazio")
-    if email == "": raise ValueError("E-mail vazio")
-    if fone == "": raise ValueError("Telefone vazio")
-    if senha == "": raise ValueError("Senha vazia")
-    for cliente in View.cliente_listar():
-      if cliente.get_email() == email: raise ValueError("E-mail repetido")
+    if nome == "" or email == "" or fone == "" or senha == "": raise ValueError("Nome, e-mail, fone ou senha vazios")
+    for obj in View.cliente_listar():
+      if obj.get_email() == email: raise ValueError("E-mail repetido")
     NCliente.inserir(cliente)
 
   def cliente_listar():
@@ -24,12 +21,9 @@ class View:
 
   def cliente_atualizar(id, nome, email, fone, senha):
     cliente = Cliente(id, nome, email, fone, senha)
-    if nome == "": raise ValueError("Nome vazio")
-    if email == "": raise ValueError("E-mail vazio")
-    if fone == "": raise ValueError("Telefone vazio")
-    if senha == "": raise ValueError("Senha vazia")
-    for cliente in View.cliente_listar():
-      if cliente.get_email() == email: raise ValueError("E-mail repetido")
+    if nome == "" or email == "" or fone == "" or senha == "": raise ValueError("Nome, e-mail, fone ou senha vazios")
+    for obj in View.cliente_listar():
+      if obj.get_email() == email: raise ValueError("E-mail repetido")
     NCliente.atualizar(cliente)
     
   def cliente_excluir(id):
@@ -69,7 +63,7 @@ class View:
   def servico_atualizar(id, descricao, valor, duracao):
     if descricao == "": raise ValueError("Descrição vazia")
     if valor < 0: raise ValueError("Valor inválido")
-    if duracao <= 0: raise ValueError("Duração inválida")
+    if duracao <= 0: raise ValueError("Duração negativa ou nula")
     NServico.atualizar(Servico(id, descricao, valor, duracao))
 
   def servico_excluir(id):
@@ -84,7 +78,7 @@ class View:
 
   def agenda_listarhoje():
     r = []
-    hoje = datetime.datetime.today()
+    hoje = datetime.today()
     for horario in View.agenda_listar():
       if horario.get_confirmado() == False and horario.get_data().date() == hoje.date():
         r.append(horario)

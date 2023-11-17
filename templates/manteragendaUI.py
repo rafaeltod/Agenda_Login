@@ -30,11 +30,14 @@ class ManterAgendaUI:
     servicos = View.servico_listar()
     servico = st.selectbox("Selecione o serviço", servicos)
     if st.button("Inserir"):
-      data = datetime.datetime.strptime(datastr, "%d/%m/%Y %H:%M")
-      View.agenda_inserir(data, True, cliente.get_id(), servico.get_id())
-      st.success("Horário inserido com sucesso")
-      time.sleep(2)
-      st.rerun()
+      try:
+        data = datetime.datetime.strptime(datastr, "%d/%m/%Y %H:%M")
+        View.agenda_inserir(data, True, cliente.get_id(), servico.get_id())
+        st.success("Horário inserido com sucesso")
+        time.sleep(2)
+        st.rerun()
+      except ValueError as error:
+        st.error(f"Erro: {error}")
 
   def atualizar():
     agendas = View.agenda_listar()
@@ -56,11 +59,14 @@ class ManterAgendaUI:
       else:
         servico = st.selectbox("Selecione o novo serviço", servicos)
       if st.button("Atualizar"):
-        data = datetime.datetime.strptime(datastr, "%d/%m/%Y %H:%M")
-        View.agenda_atualizar(op.get_id(), data, op.get_confirmado(), cliente.get_id(), servico.get_id())
-        st.success("Horário atualizado com sucesso")
-        time.sleep(2)
-        st.rerun()
+        try:
+          data = datetime.datetime.strptime(datastr, "%d/%m/%Y %H:%M")
+          View.agenda_atualizar(op.get_id(), data, op.get_confirmado(), cliente.get_id(), servico.get_id())
+          st.success("Horário atualizado com sucesso")
+          time.sleep(2)
+          st.rerun()
+        except ValueError as error:
+          st.error(f"Erro: {error}")
 
   def excluir():
     agendas = View.agenda_listar()
