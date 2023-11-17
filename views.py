@@ -103,3 +103,6 @@ class View:
     while aux <= data_fim :
       NAgenda.inserir(Agenda(0, aux, False, 0, 0))
       aux = aux + delta
+
+  def editar_perfil(id, nome, email, fone, senha):
+    NCliente.atualizar(Cliente(id, nome, email, fone, senha))
