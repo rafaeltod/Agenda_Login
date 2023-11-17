@@ -1,4 +1,5 @@
 import json
+import streamlit as st
 
 class Cliente:
   def __init__(self, id, nome, email, fone, senha):
@@ -35,6 +36,7 @@ class NCliente:
   @classmethod
   def inserir(cls, obj):
     cls.abrir()
+    st.write(obj.get_nome())
     id = 0  # encontrar o maior id já usado
     for aux in cls.__clientes:
       if aux.get_id() > id: id = aux.get_id()

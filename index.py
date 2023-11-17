@@ -6,6 +6,8 @@ from templates.loginUI import LoginUI
 from templates.agendahojeUI import AgendaHojeUI
 from templates.servicoreajusteUI import ServicoReajusteUI
 from templates.abrircontaUI import AbrirContaUI
+from templates.editarperfilUI import EditarPerfilUI
+from templates.agendarhorarioUI import AgendarHorarioUI
 from views import View
 
 import streamlit as st
@@ -26,8 +28,10 @@ class IndexUI:
     if op == "Reajustar Preço": ServicoReajusteUI.main()
 
   def menu_cliente():
-    op = st.sidebar.selectbox("Menu", ["Agenda de Hoje"])
+    op = st.sidebar.selectbox("Menu", ["Agenda de Hoje", "Editar Perfil", "Agendar um horário"])
     if op == "Agenda de Hoje": AgendaHojeUI.main()
+    if op == "Editar Perfil": EditarPerfilUI.main()
+    if op == "Agendar um horário": AgendarHorarioUI.main()
 
   def btn_logout():
     if st.sidebar.button("Logout"):
@@ -40,7 +44,8 @@ class IndexUI:
       IndexUI.menu_visitante()   
     else:
       st.sidebar.write("Bem-vindo(a), " + st.session_state["cliente_nome"])
-      if st.session_state["cliente_nome"] == "admin": IndexUI.menu_admin()
+      clientes = View.cliente_listar()
+      if st.session_state["cliente_nome"] == clientes[0].get_nome(): IndexUI.menu_admin()
       else: IndexUI.menu_cliente()
       IndexUI.btn_logout()  
 

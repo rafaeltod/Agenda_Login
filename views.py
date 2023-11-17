@@ -3,17 +3,15 @@ from models.cliente import Cliente, NCliente
 from models.servico import Servico, NServico
 from models.agenda import Agenda, NAgenda
 import datetime
+from datetime import timedelta
 from datetime import datetime
 
 class View:
   def cliente_inserir(nome, email, fone, senha):
     cliente = Cliente(0, nome, email, fone, senha)
-    if nome == "": raise ValueError("Nome vazio")
-    if email == "": raise ValueError("E-mail vazio")
-    if fone == "": raise ValueError("Telefone vazio")
-    if senha == "": raise ValueError("Senha vazia")
-    for cliente in View.cliente_listar():
-      if cliente.get_email() == email: raise ValueError("E-mail repetido")
+    if nome == "" or email == "" or fone == "" or senha == "": raise ValueError("Nome, e-mail, fone ou senha vazios")
+    for obj in View.cliente_listar():
+      if obj.get_email() == email: raise ValueError("E-mail repetido")
     NCliente.inserir(cliente)
 
   def cliente_listar():
@@ -24,12 +22,9 @@ class View:
 
   def cliente_atualizar(id, nome, email, fone, senha):
     cliente = Cliente(id, nome, email, fone, senha)
-    if nome == "": raise ValueError("Nome vazio")
-    if email == "": raise ValueError("E-mail vazio")
-    if fone == "": raise ValueError("Telefone vazio")
-    if senha == "": raise ValueError("Senha vazia")
-    for cliente in View.cliente_listar():
-      if cliente.get_email() == email: raise ValueError("E-mail repetido")
+    if nome == "" or email == "" or fone == "" or senha == "": raise ValueError("Nome, e-mail, fone ou senha vazios")
+    for obj in View.cliente_listar():
+      if obj.get_email() == email: raise ValueError("E-mail repetido")
     NCliente.atualizar(cliente)
     
   def cliente_excluir(id):
@@ -69,7 +64,7 @@ class View:
   def servico_atualizar(id, descricao, valor, duracao):
     if descricao == "": raise ValueError("Descrição vazia")
     if valor < 0: raise ValueError("Valor inválido")
-    if duracao <= 0: raise ValueError("Duração inválida")
+    if duracao <= 0: raise ValueError("Duração negativa ou nula")
     NServico.atualizar(Servico(id, descricao, valor, duracao))
 
   def servico_excluir(id):
@@ -84,7 +79,7 @@ class View:
 
   def agenda_listarhoje():
     r = []
-    hoje = datetime.datetime.today()
+    hoje = datetime.today()
     for horario in View.agenda_listar():
       if horario.get_confirmado() == False and horario.get_data().date() == hoje.date():
         r.append(horario)
@@ -100,12 +95,34 @@ class View:
     NAgenda.excluir(Agenda(id, "", "", 0, 0))
 
   def agenda_abrir_agenda(data, hinicio, hfim, intervalo):
-    data_inicio = datetime.datetime.strptime(f"{data} {hinicio}", "%d/%m/%Y %H:%M")
-    data_fim = datetime.datetime.strptime(f"{data} {hfim}", "%d/%m/%Y %H:%M")
-    if data.date() < datetime.today().date(): raise ValueError()
-    delta = datetime.timedelta(minutes = intervalo) 
-    if intervalo <= 0: raise ValueError()
+    data_inicio = datetime.strptime(f"{data} {hinicio}", "%d/%m/%Y %H:%M")
+    data_fim = datetime.strptime(f"{data} {hfim}", "%d/%m/%Y %H:%M")
+    
+    data_atual = datetime.today()
+    
+    if data_inicio.date() < data_atual.date():
+        raise ValueError("A data de início não pode ser anterior à data atual")
+    
+    delta = timedelta(minutes=intervalo) 
+    if intervalo <= 0:
+        raise ValueError("O intervalo deve ser maior que zero")
+    
     aux = data_inicio
-    while aux <= data_fim :
-      NAgenda.inserir(Agenda(0, aux, False, 0, 0))
-      aux = aux + delta
+    while aux <= data_fim:
+        NAgenda.inserir(Agenda(0, aux, False, 0, 0))
+        aux += delta
+
+  def editar_perfil(id, nome, email, fone, senha):
+    NCliente.atualizar(Cliente(id, nome, email, fone, senha))
+
+  def listar_horarios():
+    hoje = datetime.today()
+    uma_semana = hoje + timedelta(days=7)
+    horarios_disponiveis = []
+
+    for agenda in View.agenda_listar():
+        if hoje.date() <= agenda.get_data().date() <= uma_semana.date() and agenda.get_confirmado() == False:
+            horarios_disponiveis.append(agenda)
+
+    return horarios_disponiveis
+ 

@@ -32,8 +32,8 @@ class ManterServicoUI:
         st.success("Serviço inserido com sucesso")
         time.sleep(2)
         st.rerun()
-      except:
-        st.error("Valor ou duração tem valores inválidos!")  
+      except ValueError as error:
+        st.error(f"Erro: {error}")  
 
   def atualizar():
     servicos = View.servico_listar()
@@ -45,11 +45,14 @@ class ManterServicoUI:
       valor = st.text_input("Informe o novo valor (R$)", op.get_valor())
       duracao = st.text_input("Informe a nova duração (min)", op.get_duracao())
       if st.button("Atualizar"):
-        id = op.get_id()
-        View.servico_atualizar(id, descricao, float(valor), int(duracao))
-        st.success("Serviço atualizado com sucesso")
-        time.sleep(2)
-        st.rerun()
+        try:
+          id = op.get_id()
+          View.servico_atualizar(id, descricao, float(valor), int(duracao))
+          st.success("Serviço atualizado com sucesso")
+          time.sleep(2)
+          st.rerun()
+        except ValueError as error:
+          st.error(f"Erro: {error}")
 
   def excluir():
     servicos = View.servico_listar()
