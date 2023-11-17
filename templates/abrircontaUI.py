@@ -21,4 +21,4 @@ class AbrirContaUI:
         time.sleep(2)
         st.rerun()
       except ValueError as error:
-        st.error("Erro: {error}")
+        st.error(f"Erro: {error}")
