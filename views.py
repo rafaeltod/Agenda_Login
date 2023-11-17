@@ -108,9 +108,6 @@ class View:
         raise ValueError("O intervalo deve ser maior que zero")
     
     aux = data_inicio
-    while aux <= data_fim:
-        NAgenda.inserir(Agenda(0, aux, False, 0, 0))
-        aux += delta
 
   def editar_perfil(id, nome, email, fone, senha):
     NCliente.atualizar(Cliente(id, nome, email, fone, senha))
@@ -125,4 +122,3 @@ class View:
             horarios_disponiveis.append(agenda)
 
     return horarios_disponiveis
- 
