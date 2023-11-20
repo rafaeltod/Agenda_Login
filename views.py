@@ -125,3 +125,15 @@ class View:
             horarios_disponiveis.append(agenda)
 
     return horarios_disponiveis
+
+  def periodo_informado(datainicial, datafinal, idcliente):
+    datainicial = datetime.strptime(f"{datainicial}", "%d/%m/%Y")
+    datafinal = datetime.strptime(f"{datafinal}", "%d/%m/%Y")
+    periodo = []
+    for horarios in View.agenda_listar():
+      if horarios.get_id_cliente() == idcliente:
+        aux = datainicial
+        while aux <= datafinal:
+          periodo.append(horarios)
+
+    return periodo
