@@ -7,6 +7,7 @@ from templates.agendahojeUI import AgendaHojeUI
 from templates.servicoreajusteUI import ServicoReajusteUI
 from templates.abrircontaUI import AbrirContaUI
 from templates.editarperfilUI import EditarPerfilUI
+from templates.agendarhorarioUI import AgendarHorarioUI
 from views import View
 
 import streamlit as st

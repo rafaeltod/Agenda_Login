@@ -11,7 +11,7 @@ class AgendarHorarioUI:
   def main():
     st.header("Horários da semana")
     AgendarHorarioUI.listar_semana()
-    AgendarHorarioUI.inserir()
+    AgendarHorarioUI.agendar()
 
   def listar_semana():
     agendas = View.listar_horarios()
@@ -23,16 +23,16 @@ class AgendarHorarioUI:
       df = pd.DataFrame(dic)
       st.dataframe(df)
 
-  def inserir():
+  def agendar():
     id = st.session_state['cliente_id']
     horarios = View.listar_horarios()
     horario = st.selectbox("Selecione o horário", horarios)
     servicos = View.servico_listar()
     servico = st.selectbox("Selecione o serviço", servicos)
-    if st.button("Inserir"):
+    if st.button("Alocar"):
       try:
-        View.agenda_inserir(horario, True, id, servico.get_id())
-        st.success("Horário inserido com sucesso")
+        View.agenda_atualizar(horario.get_id(), horario.get_data(), True, id, servico.get_id())
+        st.success("Horário agendado com sucesso")
         time.sleep(2)
         st.rerun()
       except ValueError as error:
