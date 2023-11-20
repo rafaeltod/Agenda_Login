@@ -9,6 +9,7 @@ from templates.abrircontaUI import AbrirContaUI
 from templates.editarperfilUI import EditarPerfilUI
 from templates.agendarhorarioUI import AgendarHorarioUI
 from templates.agendamentosUI import VisualizarAgendamentoUI
+from templates.admconfirmarUI import ConfirmarAgendamentoUI
 from views import View
 
 import streamlit as st
@@ -21,12 +22,14 @@ class IndexUI:
     if op == "Abrir Conta": AbrirContaUI.main()
 
   def menu_admin():
-    op = st.sidebar.selectbox("Menu", ["Manter Agenda", "Manter Clientes", "Manter Serviços", "Abrir Agenda do Dia", "Reajustar Preço"])
+    op = st.sidebar.selectbox("Menu", ["Manter Agenda", "Manter Clientes", "Manter Serviços", "Abrir Agenda do Dia", "Reajustar Preço", "Confirmar Agendamento", "Editar Perfil"])
     if op == "Manter Agenda": ManterAgendaUI.main()
     if op == "Manter Clientes": ManterClienteUI.main()
     if op == "Manter Serviços": ManterServicoUI.main()
     if op == "Abrir Agenda do Dia": AbrirAgendaUI.main()
     if op == "Reajustar Preço": ServicoReajusteUI.main()
+    if op == "Confirmar Agendamento": ConfirmarAgendamentoUI.main()
+    if op == "Editar Perfil": EditarPerfilUI.main()
 
   def menu_cliente():
     op = st.sidebar.selectbox("Menu", ["Agenda de Hoje", "Editar Perfil", "Agendar um horário", "Meus Agendamentos"])

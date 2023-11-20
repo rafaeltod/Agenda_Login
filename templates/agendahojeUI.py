@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 from views import View
-import time
-import datetime
 
 class AgendaHojeUI:
   def main():

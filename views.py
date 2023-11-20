@@ -1,4 +1,3 @@
-from multiprocessing.sharedctypes import Value
 from models.cliente import Cliente, NCliente
 from models.servico import Servico, NServico
 from models.agenda import Agenda, NAgenda
@@ -129,11 +128,20 @@ class View:
   def periodo_informado(datainicial, datafinal, idcliente):
     datainicial = datetime.strptime(f"{datainicial}", "%d/%m/%Y")
     datafinal = datetime.strptime(f"{datafinal}", "%d/%m/%Y")
+    
     periodo = []
-    for horarios in View.agenda_listar():
-      if horarios.get_id_cliente() == idcliente:
-        aux = datainicial
-        while aux <= datafinal:
-          periodo.append(horarios)
-
+    
+    for horario in View.agenda_listar():
+        if horario.get_id_cliente() == idcliente:
+            if datainicial <= horario.get_data() <= datafinal:
+                periodo.append(horario)
+    
     return periodo
+  
+  def listar_naoconfirmados():
+    nao_confirmados = []
+    for agenda in View.agenda_listar():
+      if agenda.get_confirmado() == False:
+        nao_confirmados.append(agenda)
+    
+    return nao_confirmados

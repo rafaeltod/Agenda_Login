@@ -2,10 +2,6 @@ import streamlit as st
 import pandas as pd
 from views import View
 import time
-import datetime
-from datetime import datetime
-from models.agenda import Agenda
-from models.agenda import NAgenda
 
 class AgendarHorarioUI:
   def main():
