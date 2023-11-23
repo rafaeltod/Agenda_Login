@@ -27,7 +27,7 @@ class AgendarHorarioUI:
     servico = st.selectbox("Selecione o serviço", servicos)
     if st.button("Alocar"):
       try:
-        View.agenda_atualizar(horario.get_id(), horario.get_data(), True, id, servico.get_id())
+        View.agenda_atualizar(horario.get_id(), horario.get_data(), False, id, servico.get_id())
         st.success("Horário agendado com sucesso")
         time.sleep(2)
         st.rerun()

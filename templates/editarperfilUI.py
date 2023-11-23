@@ -15,7 +15,7 @@ class EditarPerfilUI:
             fone = st.text_input("Fone")
             senha = st.text_input("Senha")
             if st.button("Editar"):
-                View.editar_perfil(id, nome, email, fone, senha)
+                View.editar_perfil(st.session_state["cliente_id"], nome, email, fone, senha)
                 st.success('Perfil editado com sucesso!')
                 time.sleep(2)
                 st.rerun()
@@ -25,7 +25,7 @@ class EditarPerfilUI:
             fone = st.text_input("Fone")
             senha = st.text_input("Senha")
             if st.button("Editar"):
-                View.editar_perfil(id, nome, email, fone, senha)
+                View.editar_perfil(st.session_state["cliente_id"], nome, email, fone, senha)
                 st.success('Perfil editado com sucesso!')
                 time.sleep(2)
                 st.rerun()
